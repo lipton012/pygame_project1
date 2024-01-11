@@ -29,10 +29,9 @@ world = pygame.display.set_mode([worldx, worldy])
 # WHITE = (254, 254, 254)
 # ALPHA = (0, 255, 0)
 
-key = pygame.image.load('key_image.png')
-
-key = pygame.transform.scale(key, (200, 200))
-world.blit(key, (0, 0))
+key1 = pygame.image.load('key_image.png').convert_alpha()
+img = pygame.transform.scale(key1, (100, 100))
+world.blit(key1, (100, 150))
 class Player(pygame.sprite.Sprite):
     """
     Spawn a player
@@ -115,12 +114,12 @@ while main:
                 main = False
 
         if event.type == pygame.KEYDOWN:
-            if event.key == ord('q'):
-                pygame.quit()
-                try:
-                    sys.exit()
-                finally:
-                    main = False
+            # if event.key == ord('q'):
+            #     pygame.quit()
+            #     try:
+            #         sys.exit()
+            #     finally:
+            #         main = False
             if event.key == pygame.K_LEFT or event.key == ord('a'):
                 player.control(-steps, 0)
             if event.key == pygame.K_RIGHT or event.key == ord('d'):
