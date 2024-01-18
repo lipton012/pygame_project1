@@ -41,11 +41,11 @@ class Player(pygame.sprite.Sprite):
         """
         Update sprite position
         """
-        if self.rect.x + self.movex < worldx - 180 and self.rect.x + self.movex > 0:
+        if self.rect.x + self.movex < worldx - 100 and self.rect.x + self.movex > 0:
             self.rect.x = self.rect.x + self.movex
         # print(self.rect.y + self.movey < worldy - 180 and self.rect.y + self.movey > 0)
 
-        if self.rect.y + self.movey < worldy - 180 and self.rect.y + self.movey > 0:
+        if self.rect.y + self.movey < worldy - 100 and self.rect.y + self.movey > 0:
             self.rect.y = self.rect.y + self.movey
 
         # self.rect.x = self.rect.x + self.movex
