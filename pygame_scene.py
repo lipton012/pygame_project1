@@ -63,15 +63,18 @@ class Player(pygame.sprite.Sprite):
     Spawn a player
     """
 
-    def __init__(self):
+    def __init__(self, name, size):
         pygame.sprite.Sprite.__init__(self)
         self.movex = 0
         self.movey = 0
         self.frame = 0
         self.images = []
         for i in range(1, 7):
-            img = pygame.image.load(f'zip/main_dog/{i}.png')
-            img = pygame.transform.scale(img, (100, 100))
+            if name=="player":
+                img = pygame.image.load(f'zip/main_dog/{i}.png')
+            else:
+                img = pygame.image.load(f'bad_hero.png')
+            img = pygame.transform.scale(img,size)
             img.convert_alpha()  # optimise alpha
             # img.set_colorkey(ALPHA)  # set alpha
             self.images.append(img)
@@ -89,11 +92,11 @@ class Player(pygame.sprite.Sprite):
         """
         Update sprite position
         """
-        if self.rect.x + self.movex < worldx - 100 and self.rect.x + self.movex > 0:
+        if self.rect.x + self.movex < worldx - 180 and self.rect.x + self.movex > 0:
             self.rect.x = self.rect.x + self.movex
         # print(self.rect.y + self.movey < worldy - 180 and self.rect.y + self.movey > 0)
 
-        if self.rect.y + self.movey < worldy - 100 and self.rect.y + self.movey > 0:
+        if self.rect.y + self.movey < worldy - 180 and self.rect.y + self.movey > 0:
             self.rect.y = self.rect.y + self.movey
 
         # self.rect.x = self.rect.x + self.movex
@@ -105,20 +108,6 @@ class Player(pygame.sprite.Sprite):
             if self.frame > 3*ani:
                 self.frame = 0
             self.image = pygame.transform.flip(self.images[self.frame // ani], True, False)
-
-        # moving up
-        if self.movey < 0:
-            self.frame += 1
-            if self.frame > 3*ani:
-                self.frame = 0
-            self.image = pygame.transform.flip(self.images[self.frame // ani], True, False)
-
-        # moving down
-        if self.movey > 0:
-            self.frame += 1
-            if self.frame > 3*ani:
-                self.frame = 0
-            self.image = self.images[self.frame//ani]
 
         # moving right
         if self.movex > 0:
@@ -165,6 +154,22 @@ def show_screen2(event):
         if event.key == pygame.K_DOWN or event.key == ord('s'):
             player.control(0, -steps)
 
+    if enemy.rect.x == 0: #движение призрака
+        enemy.control(10, 0)
+        print(222)
+
+    if enemy.rect.x == 770 and enemy.rect.y==100:
+        # enemy.control(-1, 0)
+        enemy.control(0, 10)
+        print(111)
+
+
+    if enemy.rect.x == 770 and enemy.rect.y==520:
+        # enemy.control(-1, 0)
+        enemy.control(10, 0)
+        print(333)
+
+
 
 def show_screen3():
     background = pygame.image.load('background2.jpg')
@@ -190,12 +195,17 @@ clock = pygame.time.Clock()
 backdropbox = screen.get_rect()
 backdrop = pygame.image.load('zip/data/homes_wall1.jpg')
 
-player = Player()  # spawn player
+player = Player("player", (100,100))  # spawn player
 player.rect.x = 0  # go to x
 player.rect.y = 0  # go to y
 player_list = pygame.sprite.Group()
 player_list.add(player)
 steps = 10
+enemy = Player("enemy", (100,200))
+enemy.rect.x = 0  # go to x
+enemy.rect.y = 100  # go to y
+# player_list = pygame.sprite.Group()
+player_list.add(enemy)
 
 
 
@@ -217,6 +227,7 @@ while running:
   if frame==2:
      screen.blit(backdrop, backdropbox)
      player.update()
+     enemy.update()
      player_list.draw(screen)
 
 
