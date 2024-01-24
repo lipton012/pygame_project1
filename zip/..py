@@ -80,8 +80,8 @@ class Player(pygame.sprite.Sprite):
             self.image = self.images[self.frame//ani]
 
 backdrop = pygame.image.load('data/homes_wall1.jpg')
-clock = pygame.time.Clock()
-pygame.init()
+# clock = pygame.time.Clock()
+
 backdropbox = world.get_rect()
 main = True
 
@@ -95,6 +95,32 @@ steps = 10
 '''
 Main Loop
 '''
+def next_step(event):
+    if event.type == pygame.KEYDOWN:
+        # if event.key == ord('q'):
+        #     pygame.quit()
+        #     try:
+        #         sys.exit()
+        #     finally:
+        #         main = False
+        if event.key == pygame.K_LEFT or event.key == ord('a'):
+            player.control(-steps, 0)
+        if event.key == pygame.K_RIGHT or event.key == ord('d'):
+            player.control(steps, 0)
+        if event.key == pygame.K_UP or event.key == ord('w'):
+            player.control(0, -steps)
+        if event.key == pygame.K_DOWN or event.key == ord('s'):
+            player.control(0, steps)
+
+    if event.type == pygame.KEYUP:
+        if event.key == pygame.K_LEFT or event.key == ord('a'):
+            player.control(steps, 0)
+        if event.key == pygame.K_RIGHT or event.key == ord('d'):
+            player.control(-steps, 0)
+        if event.key == pygame.K_UP or event.key == ord('w'):
+            player.control(0, steps)
+        if event.key == pygame.K_DOWN or event.key == ord('s'):
+            player.control(0, -steps)
 
 while main:
     for event in pygame.event.get():
@@ -104,36 +130,37 @@ while main:
                 sys.exit()
             finally:
                 main = False
+        next_step(event)
 
-        if event.type == pygame.KEYDOWN:
-            # if event.key == ord('q'):
-            #     pygame.quit()
-            #     try:
-            #         sys.exit()
-            #     finally:
-            #         main = False
-            if event.key == pygame.K_LEFT or event.key == ord('a'):
-                player.control(-steps, 0)
-            if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                player.control(steps, 0)
-            if event.key == pygame.K_UP or event.key == ord('w'):
-                player.control(0, -steps)
-            if event.key == pygame.K_DOWN or event.key == ord('s'):
-                player.control(0, steps)
-
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == ord('a'):
-                player.control(steps, 0)
-            if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                player.control(-steps, 0)
-            if event.key == pygame.K_UP or event.key == ord('w'):
-                player.control(0, steps)
-            if event.key == pygame.K_DOWN or event.key == ord('s'):
-                player.control(0, -steps)
+        # if event.type == pygame.KEYDOWN:
+        #     # if event.key == ord('q'):
+        #     #     pygame.quit()
+        #     #     try:
+        #     #         sys.exit()
+        #     #     finally:
+        #     #         main = False
+        #     if event.key == pygame.K_LEFT or event.key == ord('a'):
+        #         player.control(-steps, 0)
+        #     if event.key == pygame.K_RIGHT or event.key == ord('d'):
+        #         player.control(steps, 0)
+        #     if event.key == pygame.K_UP or event.key == ord('w'):
+        #         player.control(0, -steps)
+        #     if event.key == pygame.K_DOWN or event.key == ord('s'):
+        #         player.control(0, steps)
+        #
+        # if event.type == pygame.KEYUP:
+        #     if event.key == pygame.K_LEFT or event.key == ord('a'):
+        #         player.control(steps, 0)
+        #     if event.key == pygame.K_RIGHT or event.key == ord('d'):
+        #         player.control(-steps, 0)
+        #     if event.key == pygame.K_UP or event.key == ord('w'):
+        #         player.control(0, steps)
+        #     if event.key == pygame.K_DOWN or event.key == ord('s'):
+        #         player.control(0, -steps)
 
 
     world.blit(backdrop, backdropbox)
     player.update()
     player_list.draw(world)
     pygame.display.flip()
-    clock.tick(fps)
+    # clock.tick(fps)
